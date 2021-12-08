@@ -2,9 +2,11 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
+#include <queue>
 using std::vector;
 using std::string;
 using std::unordered_map;
+using std::queue;
 
 class Graph{
     struct Node{
@@ -19,10 +21,13 @@ class Graph{
     unordered_map<int, Node*> adjList;
     Node* currNode;
 public:
-
-    Graph(int srcIDthe , string srcTitle);
+    Graph(int srcID, string srcTitle);
+    //sets current node to existing node
     void setCurrNode(int id);
-    //creates an edge from current node to this new node
-    void insertNode(int id, string title, bool outgoing = true);
-    void breadthSearch(int targetID); //TODO: think this through
+    //creates an edge from current node to existing node
+    void connectOutNode(int id);
+    //creates an edge from current node to a new node
+    void insertOutNode(int id, string title);
+    //performs breadthFirstSearch from current node to find existing node with targetID
+    void breadthFirstSearch(int targetID); 
 };
