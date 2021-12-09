@@ -38,7 +38,7 @@ public:
     Graph(int srcID, string srcTitle);
     //gets a page's title from its id
     const string& getTitle(int id);
-    //performs bfsh from current node to find all shortests paths to node with targetID
+    //performs bfs from current node to find all shortests paths to node with targetID
     //returns list of ids in path order
     vector<int> breadthFirstSearchOut(int srcID, int targetID);
 };

@@ -27,7 +27,6 @@ void Graph::setSourceNode(int id) {
 
 void Graph::connectOutNode(int id) {
     currNode->outgoingNodes.push_back(adjList[id]);
-
 }
 
 void Graph::connectToOutgoingLinks() { //TODO: finish
