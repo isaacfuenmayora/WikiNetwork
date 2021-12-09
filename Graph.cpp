@@ -1,4 +1,4 @@
-#include "Graph.hpp";
+#include "Graph.hpp"
 #include "WikiAPI.hpp"
 #include <queue>
 #include <unordered_set>
