@@ -2,13 +2,12 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
-#include <queue>
 using std::vector;
 using std::string;
 using std::unordered_map;
-using std::queue;
 
 class Graph{
+private:
     struct Node{
         int id;
         string title, thumbURL, pageURL;
@@ -19,17 +18,27 @@ class Graph{
     };
     //use IDs to get Node
     unordered_map<int, Node*> adjList;
+    //source/current Node
     Node* currNode;
-public:
-    Graph(int srcID, string srcTitle);
+    //returns true if graph contains node with id
+    bool contains(int id);
     //creates and sets current node
     void emplaceSourceNode(int id, string title);
     //sets current node to existing node
     void setSourceNode(int id);
+    //creates an edge from current node to a new outgoing node
+    void emplaceOutNode(int id, string title);
     //creates an edge from current node to existing node
     void connectOutNode(int id);
-    //creates an edge from current node to a new node
-    void emplaceOutNode(int id, string title);
-    //performs breadthFirstSearch from current node to find existing node with targetID
-    void breadthFirstSearch(int targetID); 
+    //uses WikiAPI to get all outgoing links for the current node
+    void connectToOutgoingLinks();
+    //gets path from src to target by traversing *prev nodes from src
+    vector<int> getPrevPathTo(Node* src, Node* dest);
+public:
+    Graph(int srcID, string srcTitle);
+    //gets a page's title from its id
+    const string& getTitle(int id);
+    //performs bfsh from current node to find all shortests paths to node with targetID
+    //returns list of ids in path order
+    vector<int> breadthFirstSearchOut(int srcID, int targetID);
 };
