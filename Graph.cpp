@@ -2,10 +2,14 @@
 
 Graph::Graph(int srcID, string srcTitle)
 {
-    currNode = adjList[srcID] = new Node(srcID, srcTitle);
+    emplaceSourceNode(srcID,srcTitle);
 }
 
-void Graph::setCurrNode(int id) {
+void Graph::emplaceSourceNode(int id, string title) {
+    currNode = adjList[id] = new Node(id, title);
+}
+
+void Graph::setSourceNode(int id) {
     currNode = adjList[id];
 }
 
@@ -13,8 +17,8 @@ void Graph::connectOutNode(int id) {
     currNode->outgoingNodes.push_back(adjList[id]);
 }
 
-void Graph::insertOutNode(int id, string title) {
-    currNode->outgoingNodes.push_back(new Node(id, title, currNode));
+void Graph::emplaceOutNode(int id, string title) {
+    currNode->outgoingNodes.push_back(adjList[id] = new Node(id, title, currNode));
 }
 
 void Graph::breadthFirstSearch(int targetID) {

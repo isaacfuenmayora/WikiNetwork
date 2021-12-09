@@ -22,12 +22,14 @@ class Graph{
     Node* currNode;
 public:
     Graph(int srcID, string srcTitle);
+    //creates and sets current node
+    void emplaceSourceNode(int id, string title);
     //sets current node to existing node
-    void setCurrNode(int id);
+    void setSourceNode(int id);
     //creates an edge from current node to existing node
     void connectOutNode(int id);
     //creates an edge from current node to a new node
-    void insertOutNode(int id, string title);
+    void emplaceOutNode(int id, string title);
     //performs breadthFirstSearch from current node to find existing node with targetID
     void breadthFirstSearch(int targetID); 
 };
