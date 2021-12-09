@@ -11,4 +11,8 @@ public:
     static string getSearchList(string query);
     static string getOutgoingLinks(int pageID);
     static string getThumbnail(int pageID);
+//    void setWiki(string wikiEndpoint);
+//    string getSearchList(string query);
+//    string getOutgoingLinks(int pageID);
+//    string getThumbnail(int pageID);
 };

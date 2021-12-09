@@ -5,9 +5,7 @@ using std::cout;
 using std::endl;
 
 int main(){
-    string wiki="https://simple.wikipedia.org/w/";
-    WikiAPI wa(wiki);
-    string body=wa.getOutgoingLinks(22654);
-    cout << body << endl;
+    WikiAPI::setWiki("https://en.wikipedia.org/w/");
+    cout << WikiAPI::getSearchList("Spider-M");
     return 0;
 }
