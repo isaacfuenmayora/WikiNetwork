@@ -86,8 +86,22 @@ string WikiAPI::getThumbnail(int pageID) {
 }
 
 string WikiAPI::getPageURL(const string& pageTitle) {
-    return wiki+"wiki/"+pageTitle;
+    string linkTitle;
+    for(int i=0; i<pageTitle.size(); i++){
+        if(pageTitle[i]==' ')
+            linkTitle+="%20";
+        else
+            linkTitle.push_back(pageTitle[i]);
+    }
+    return wiki+"wiki/"+linkTitle;
 }
 string WikiAPI::getPageURL(string&& pageTitle) {
-    return wiki+"wiki/"+pageTitle;
+    string linkTitle;
+    for(int i=0; i<pageTitle.size(); i++){
+        if(pageTitle[i]==' ')
+            linkTitle+="%20";
+        else
+            linkTitle.push_back(pageTitle[i]);
+    }
+    return wiki+"wiki/"+linkTitle;
 }
