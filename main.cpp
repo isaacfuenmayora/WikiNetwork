@@ -26,10 +26,10 @@ pair<int,string> chooseArticle(string articleTitle){
     int loc = text.find(p,0);
     while(loc!=string::npos){
         int pos = loc + 9;
-        int id = stoi(text.substr(pos, text.find(",", pos) - pos));
+        int id = stoi(text.substr(pos, text.find(',', pos) - pos));
         loc=text.find(t, pos);
         pos = loc + 9;
-        string title = text.substr(pos, text.find("\"", pos)-pos);
+        string title = text.substr(pos, text.find('\"', pos)-pos);
         v.emplace_back(id,title);
         loc = text.find(p,pos);
     }

@@ -32,16 +32,17 @@ private:
     //creates an edge from current node to existing node
     void connectOutNode(int id);
     //uses WikiAPI to get all outgoing links for the current node
-    void connectToOutgoingLinks();
+    void connectToOutgoingLinks(bool displayPages=false);
     //gets path from src to target by traversing *prev nodes from src
     vector<int> getPrevPathTo(Node* src, Node* dest);
 public:
     Graph();
     Graph(int srcID, string srcTitle);
+    ~Graph();
     //gets a page's title from its id
     const string& getTitle(int id);
     //performs bfs from current node to find all shortests paths to node with targetID
     //returns list of ids in path order
-    vector<int> breadthFirstSearchOut(int srcID, string srcTitle, int targetID);
-    vector<int> iterativeDeepeningDepthSearchOut(int srcID, string srcTitle, int targetID, int maxDepth);
+    vector<int> breadthFirstSearchOut(int srcID, string srcTitle, int targetID, bool displayPages=false);
+    vector<int> iterativeDeepeningDepthSearchOut(int srcID, string srcTitle, int targetID, int maxDepth, bool displayPages=false);
 };
