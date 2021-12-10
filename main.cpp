@@ -67,15 +67,19 @@ int main(){
         getline(cin, article);
         pair<int, string> endPage = chooseArticle(article);
         cout << "Would you like to conduct a breadth first (0) or deepening depth first (1) search for the shortest path?" << endl;
+        string searchstr;
         int search;
-        cin >> search;
+        getline(cin, searchstr);
+        search=stoi(searchstr);
         vector<int> path;
         if(search==0)
             path = g.breadthFirstSearchOut(srcPage.first,srcPage.second,endPage.first);
         else {
             cout << "Enter value for max depth:" << endl;
+            string depthstr;
             int depth;
-            cin >> depth;
+            getline(cin, depthstr);
+            depth=stoi(depthstr);
             path = g.iterativeDeepeningDepthSearchOut(srcPage.first,srcPage.second,endPage.first, depth);
         }
         cout << "This is the shortest path:" << endl;
