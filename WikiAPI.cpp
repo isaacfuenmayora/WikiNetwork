@@ -20,6 +20,12 @@ void WikiAPI::setWiki(const string& wikiEndpoint) {
     outgoing_url=wiki+"w/api.php?format=json&formatversion=2&action=query&generator=links&gpllimit=500&gplnamespace=0&redirects=&pageids=";
     thumbnail_url=wiki+"w/api.php?format=json&formatversion=2&action=query&prop=pageimages&piprop=original&pilicense=any&titles=";
 }
+void WikiAPI::setWiki(string&& wikiEndpoint) {
+    wiki=wikiEndpoint;
+    search_url=wiki+"w/api.php?format=json&formatversion=2&action=query&generator=prefixsearch&gpslimit=10&prop=pageimages|pageterms&piprop=thumbnail&pithumbsize=50&pilimit=10&pilicense=any&wbptterms=description&redirects=&gpssearch=";
+    outgoing_url=wiki+"w/api.php?format=json&formatversion=2&action=query&generator=links&gpllimit=500&gplnamespace=0&redirects=&pageids=";
+    thumbnail_url=wiki+"w/api.php?format=json&formatversion=2&action=query&prop=pageimages&piprop=original&pilicense=any&titles=";
+}
 //TODO: Implement handling errors
 string WikiAPI::getSearchList(const string& query) {
     Response r = Get(Url{search_url+query});

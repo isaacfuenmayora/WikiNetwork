@@ -13,7 +13,7 @@ private:
         string title, thumbURL, pageURL;
         vector<Node*> outgoingNodes, incomingNodes;
         //optimal previous node for shortest path
-        Node* prev; //TODO: check if this is best
+        Node* prev;
         Node(int id, string title, Node* prev=nullptr);
     };
     //use IDs to get Node
@@ -35,10 +35,11 @@ private:
     //gets path from src to target by traversing *prev nodes from src
     vector<int> getPrevPathTo(Node* src, Node* dest);
 public:
+    Graph();
     Graph(int srcID, string srcTitle);
     //gets a page's title from its id
     const string& getTitle(int id);
     //performs bfs from current node to find all shortests paths to node with targetID
     //returns list of ids in path order
-    vector<int> breadthFirstSearchOut(int srcID, int targetID);
+    vector<int> breadthFirstSearchOut(int srcID, string srcTitle, int targetID);
 };
