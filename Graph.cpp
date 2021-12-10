@@ -37,18 +37,36 @@ void Graph::connectOutNode(int id) {
 }
 
 void Graph::connectToOutgoingLinks() { //TODO: finish
-//    string json = WikiAPI::getOutgoingLinks(currNode->id);
-//    string p = "\"pageid\"";
-//    string t = "\"title\"";
-//    int loc = json.find("", 0);
-//    while(loc!=string::npos){
-//        int pos = loc + 10;
-//        int id = stoi(json.substr(pos, json.find(",", pos) - pos));
-//        loc=json.find(t, pos);
-//        pos = loc + 10;
-//        string title = json.substr(pos, json.find("\"", pos) - pos);
-//        v.push_back({id,title});
-//    }
+    currNode->hasAllOutgoing=true;
+    string text=WikiAPI::getOutgoingLinks(currNode->id);
+    string g="\"gplcontinue\"";
+    string p = "\"pageid\"";
+    string t = "\"title\"";
+    bool hasCont=false;
+    string gplcont;
+    int loc = text.find(g,0);
+    do{
+        if(loc!=string::npos) {
+            loc=loc+16;
+            hasCont = true;
+            gplcont = text.substr(loc,text.find(",", loc) - loc);
+        }
+        else
+            hasCont=false;
+        loc = text.find(p, loc);
+        while (loc != string::npos) {
+            int pos = loc + 10;
+            int id = stoi(text.substr(pos, text.find(",", pos) - pos));
+            loc = text.find(t, pos);
+            pos = loc + 10;
+            string title = text.substr(pos, text.find("\"", pos) - pos);
+            emplaceOutNode(id, title);
+        }
+        if(hasCont) {
+            text = WikiAPI::getOutgoingLinks(currNode->id, gplcont);
+            loc=text.find(g,0);
+        }
+    }while(hasCont);
 }
 
 vector<int> Graph::getPrevPathTo(Node* src, Node* dest) {
@@ -75,7 +93,7 @@ vector<int> Graph::breadthFirstSearchOut(int srcID, string srcTitle, int targetI
     while(!nodes.empty()){
         currNode = nodes.front(); nodes.pop();
         //if this node hasn't gotten its outgoing links, get them first
-        if(currNode->hasAllOutgoing)
+        if(currNode->outgoingNodes.empty())
             connectToOutgoingLinks();
         //iterate through the current Node's outgoing links
         for(Node* out: currNode->outgoingNodes){

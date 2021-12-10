@@ -65,6 +65,16 @@ string WikiAPI::getOutgoingLinks(int pageID, string&& gplcontinue) {
     }
 }
 
+string WikiAPI::getOutgoingLinks(int pageID, string& gplcontinue) {
+    Response r = Get(Url{outgoing_url+to_string(pageID)+"&gplcontinue="+gplcontinue});
+    switch(r.status_code) {
+        case 200:
+            return r.text;
+        default:
+            return "error";
+    }
+}
+
 string WikiAPI::getThumbnail(int pageID) {
     Response r = Get(Url{thumbnail_url+to_string(pageID)});
     switch(r.status_code) {

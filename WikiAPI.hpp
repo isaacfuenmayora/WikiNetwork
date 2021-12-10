@@ -13,6 +13,7 @@ public:
     static string getSearchList(string&& query);
     static string getOutgoingLinks(int pageID);
     static string getOutgoingLinks(int pageID, string&& gplcontinue);
+    static string getOutgoingLinks(int pageID, string& gplcontinue);
     static string getThumbnail(int pageID);
     static string getPageURL(const string& pageTitle);
     static string getPageURL(string&& pageTitle);

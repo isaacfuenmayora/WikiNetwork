@@ -31,7 +31,7 @@ pair<int,string> chooseArticle(string articleTitle){
         pos = loc + 9;
         string title = text.substr(pos, text.find("\"", pos)-pos);
         v.push_back({id,title});
-        loc=pos;
+        loc = text.find(p,pos);
     }
     cout << "Please enter the corresponding number for which article you would like to choose." << endl;
     for(unsigned int i=1; i<=v.size(); i++){
