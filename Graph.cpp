@@ -53,7 +53,7 @@ void Graph::connectToOutgoingLinks() { //TODO: finish
         }
         else
             hasCont=false;
-        loc = text.find(p, loc);
+        loc = text.find(p, loc==string::npos ? 0:loc);
         while (loc != string::npos) {
             int pos = loc + 10;
             int id = stoi(text.substr(pos, text.find(",", pos) - pos));
