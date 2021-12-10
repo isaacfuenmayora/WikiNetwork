@@ -43,4 +43,5 @@ public:
     //performs bfs from current node to find all shortests paths to node with targetID
     //returns list of ids in path order
     vector<int> breadthFirstSearchOut(int srcID, string srcTitle, int targetID);
+    vector<int> iterativeDeepeningDepthSearchOut(int srcID, string srcTitle, int targetID, int maxDepth);
 };
