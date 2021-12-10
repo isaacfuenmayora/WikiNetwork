@@ -10,8 +10,9 @@ class Graph{
 private:
     struct Node{
         int id;
-        string title, thumbURL, pageURL;
+        string title;
         vector<Node*> outgoingNodes, incomingNodes;
+        bool hasAllOutgoing = false;
         //optimal previous node for shortest path
         Node* prev;
         Node(int id, string title, Node* prev=nullptr);

@@ -34,16 +34,16 @@ void Graph::connectOutNode(int id) {
 }
 
 void Graph::connectToOutgoingLinks() { //TODO: finish
-//    string text=WikiAPI::getOutgoingLinks(currNode->id);
+//    string json = WikiAPI::getOutgoingLinks(currNode->id);
 //    string p = "\"pageid\"";
 //    string t = "\"title\"";
-//    int loc = text.find(p,0);
+//    int loc = json.find("", 0);
 //    while(loc!=string::npos){
 //        int pos = loc + 10;
-//        int id = stoi(text.substr(pos, text.find(",", pos) - pos));
-//        loc=text.find(t, pos);
+//        int id = stoi(json.substr(pos, json.find(",", pos) - pos));
+//        loc=json.find(t, pos);
 //        pos = loc + 10;
-//        string title = text.substr(pos, text.find("\"", pos)-pos);
+//        string title = json.substr(pos, json.find("\"", pos) - pos);
 //        v.push_back({id,title});
 //    }
 }
@@ -72,7 +72,7 @@ vector<int> Graph::breadthFirstSearchOut(int srcID, string srcTitle, int targetI
     while(!nodes.empty()){
         currNode = nodes.front(); nodes.pop();
         //if this node hasn't gotten its outgoing links, get them first
-        if(currNode->outgoingNodes.empty())
+        if(currNode->hasAllOutgoing)
             connectToOutgoingLinks();
         //iterate through the current Node's outgoing links
         for(Node* out: currNode->outgoingNodes){
