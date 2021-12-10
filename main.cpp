@@ -30,7 +30,7 @@ pair<int,string> chooseArticle(string articleTitle){
         loc=text.find(t, pos);
         pos = loc + 9;
         string title = text.substr(pos, text.find("\"", pos)-pos);
-        v.push_back({id,title});
+        v.emplace_back(id,title);
         loc = text.find(p,pos);
     }
     cout << "Please enter the corresponding number for which article you would like to choose." << endl;
@@ -56,7 +56,6 @@ int main(){
     wikis[10]="https://species.wikimedia.org/";
     wikis[11]="https://en.wikivoyage.org/";
     WikiAPI::setWiki(displayWikiMenu(wikis));
-
     Graph g;
     string cont="Y";
     while(cont[0]=='Y') {
@@ -67,7 +66,7 @@ int main(){
         cout << "Search for your ending article:" << endl;
         getline(cin, article);
         pair<int, string> endPage = chooseArticle(article);
-        cout << "Would you like to conduct a breadth first (0) or deepening depth first (1) search for the shortest path?" << endl;
+        cout << "Would you like to conduct a breadth first (0) or iterative deepening depth first (1) search for the shortest path?" << endl;
         string searchstr;
         int search;
         getline(cin, searchstr);

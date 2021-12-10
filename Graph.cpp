@@ -3,6 +3,7 @@
 #include <queue>
 #include <stack>
 #include <unordered_set>
+#include <algorithm>
 using std::move;
 using std::queue;
 using std::stack;
