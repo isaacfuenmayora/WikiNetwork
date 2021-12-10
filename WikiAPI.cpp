@@ -30,9 +30,27 @@ string WikiAPI::getSearchList(const string& query) {
             return "error";
     }
 }
+string WikiAPI::getSearchList(string&& query) {
+    Response r = Get(Url{search_url+query});
+    switch(r.status_code) {
+        case 200:
+            return r.text;
+        default:
+            return "error";
+    }
+}
 
 string WikiAPI::getOutgoingLinks(int pageID) {
     Response r = Get(Url{outgoing_url+to_string(pageID)});
+    switch(r.status_code) {
+        case 200:
+            return r.text;
+        default:
+            return "error";
+    }
+}
+string WikiAPI::getOutgoingLinks(int pageID, string&& gplcontinue) {
+    Response r = Get(Url{outgoing_url+to_string(pageID)+"&gplcontinue="+gplcontinue});
     switch(r.status_code) {
         case 200:
             return r.text;
@@ -54,5 +72,6 @@ string WikiAPI::getThumbnail(int pageID) {
 string WikiAPI::getPageURL(const string& pageTitle) {
     return wiki+"wiki/"+pageTitle;
 }
-
-
+string WikiAPI::getPageURL(string&& pageTitle) {
+    return wiki+"wiki/"+pageTitle;
+}
