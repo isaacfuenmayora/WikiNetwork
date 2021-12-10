@@ -10,6 +10,17 @@ string WikiAPI::outgoing_url="https://simple.wikipedia.org/w/api.php?format=json
 string WikiAPI::search_url="https://simple.wikipedia.org/w/api.php?format=json&formatversion=2&action=query&generator=links&gpllimit=500&gplnamespace=0&redirects=&pageids=";
 string WikiAPI::thumbnail_url="api.php?format=json&formatversion=2&action=query&prop=pageimages&piprop=original&pilicense=any&titles=";
 
+string formatTitle(string& title){
+    string linkTitle;
+    for(int i=0; i<title.size(); i++){
+        if(title[i]==' ')
+            linkTitle+="%20";
+        else
+            linkTitle.push_back(title[i]);
+    }
+    return linkTitle;
+}
+
 WikiAPI::WikiAPI(const string& wikiEndpoint) {
     setWiki(wikiEndpoint);
 }
@@ -27,8 +38,8 @@ void WikiAPI::setWiki(string&& wikiEndpoint) {
     thumbnail_url=wiki+"w/api.php?format=json&formatversion=2&action=query&prop=pageimages&piprop=original&pilicense=any&titles=";
 }
 //TODO: Implement handling errors
-string WikiAPI::getSearchList(const string& query) {
-    Response r = Get(Url{search_url+query});
+string WikiAPI::getSearchList(string& query) {
+    Response r = Get(Url{search_url+formatTitle(query)});
     switch(r.status_code) {
         case 200:
             return r.text;
@@ -37,7 +48,7 @@ string WikiAPI::getSearchList(const string& query) {
     }
 }
 string WikiAPI::getSearchList(string&& query) {
-    Response r = Get(Url{search_url+query});
+    Response r = Get(Url{search_url+formatTitle(query)});
     switch(r.status_code) {
         case 200:
             return r.text;
@@ -85,23 +96,11 @@ string WikiAPI::getThumbnail(int pageID) {
     }
 }
 
-string WikiAPI::getPageURL(const string& pageTitle) {
-    string linkTitle;
-    for(int i=0; i<pageTitle.size(); i++){
-        if(pageTitle[i]==' ')
-            linkTitle+="%20";
-        else
-            linkTitle.push_back(pageTitle[i]);
-    }
-    return wiki+"wiki/"+linkTitle;
+string WikiAPI::getPageURL(string& pageTitle) {
+    pageTitle=formatTitle(pageTitle);
+    return wiki+"wiki/"+pageTitle;
 }
 string WikiAPI::getPageURL(string&& pageTitle) {
-    string linkTitle;
-    for(int i=0; i<pageTitle.size(); i++){
-        if(pageTitle[i]==' ')
-            linkTitle+="%20";
-        else
-            linkTitle.push_back(pageTitle[i]);
-    }
-    return wiki+"wiki/"+linkTitle;
+    pageTitle=formatTitle(pageTitle);
+    return wiki+"wiki/"+pageTitle;
 }
