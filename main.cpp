@@ -10,7 +10,7 @@ using std::pair;
 
 string displayWikiMenu(const vector<string>& wikis){
     cout << "Please enter the corresponding number for which wiki you would like to choose." << endl;
-    for(int i=1; i<=wikis.size(); i++){
+    for(int i=1; i<wikis.size(); i++){
         cout << i <<  (i>=10 ? ". ":".  ") << wikis[i] << endl;
     }
     int wikiIndex;
@@ -28,9 +28,10 @@ pair<int,string> chooseArticle(string articleTitle){
         int pos = loc + 10;
         int id = stoi(text.substr(pos, text.find(",", pos) - pos));
         loc=text.find(t, pos);
-        pos = loc + 10;
+        pos = loc + 9;
         string title = text.substr(pos, text.find("\"", pos)-pos);
         v.push_back({id,title});
+        loc=pos;
     }
     cout << "Please enter the corresponding number for which article you would like to choose." << endl;
     for(unsigned int i=1; i<=v.size(); i++){
