@@ -13,9 +13,9 @@ string displayWikiMenu(const vector<string>& wikis){
     for(int i=1; i<wikis.size(); i++){
         cout << i <<  (i>=10 ? ". ":".  ") << wikis[i] << endl;
     }
-    int wikiIndex;
-    cin >> wikiIndex;
-    return wikis[wikiIndex];
+    string wikiIndex;
+    getline(cin,wikiIndex);
+    return wikis[stoi(wikiIndex)];
 }
 
 pair<int,string> chooseArticle(string articleTitle){
