@@ -53,14 +53,15 @@ void Graph::connectToOutgoingLinks() { //TODO: finish
         }
         else
             hasCont=false;
-        loc = text.find(p, loc==string::npos ? 0:loc);
+        loc = text.find(p,0);
         while (loc != string::npos) {
-            int pos = loc + 10;
+            int pos = loc + 9;
             int id = stoi(text.substr(pos, text.find(",", pos) - pos));
-            loc = text.find(t, pos);
-            pos = loc + 10;
-            string title = text.substr(pos, text.find("\"", pos) - pos);
-            emplaceOutNode(id, title);
+            loc=text.find(t, pos);
+            pos = loc + 9;
+            string title = text.substr(pos, text.find("\"", pos)-pos);
+            emplaceOutNode(id,title);
+            loc = text.find(p,pos);
         }
         if(hasCont) {
             text = WikiAPI::getOutgoingLinks(currNode->id, gplcont);
@@ -71,18 +72,19 @@ void Graph::connectToOutgoingLinks() { //TODO: finish
 
 vector<int> Graph::getPrevPathTo(Node* src, Node* dest) {
     vector<int> path;
-    while(src!=dest){
+    while(src->id!=dest->id){//TODO: explore efficiency
         path.push_back(src->id);
         src=src->prev;
     }
     path.push_back(src->id);
+    std::reverse(path.begin(),path.end());
     return path;
 }
 
 void Graph::emplaceOutNode(int id, string title) {
     currNode->outgoingNodes.push_back(adjList[id] = new Node(id, title, currNode));
 }
-
+//#include <iostream> //TODO
 vector<int> Graph::breadthFirstSearchOut(int srcID, string srcTitle, int targetID) {
     if(contains(srcID))
         setSourceNode(srcID);
@@ -90,10 +92,11 @@ vector<int> Graph::breadthFirstSearchOut(int srcID, string srcTitle, int targetI
         emplaceSourceNode(srcID,srcTitle);
     queue<Node*> nodes({currNode});
     unordered_set<Node*> visited({currNode});
+//    std::cout<<currNode->title<<std::endl; //TODO
     while(!nodes.empty()){
-        currNode = nodes.front(); nodes.pop();
+        currNode = nodes.front(); nodes.pop();  //std::cout<<currNode->title<<std::endl; //TODO
         //if this node hasn't gotten its outgoing links, get them first
-        if(currNode->outgoingNodes.empty())
+        if(!currNode->hasAllOutgoing)
             connectToOutgoingLinks();
         //iterate through the current Node's outgoing links
         for(Node* out: currNode->outgoingNodes){
@@ -123,7 +126,7 @@ vector<int> Graph::iterativeDeepeningDepthSearchOut(int srcID, string srcTitle, 
         int depth = nodeDepths.top().second;
         nodeDepths.pop();
         //if this node hasn't gotten its outgoing links, get them first
-        if(currNode->hasAllOutgoing)
+        if(!currNode->hasAllOutgoing)
             connectToOutgoingLinks();
         //iterate through the current Node's outgoing links
         if(depth<maxDepth) for(Node* out: currNode->outgoingNodes){

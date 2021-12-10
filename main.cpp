@@ -25,7 +25,7 @@ pair<int,string> chooseArticle(string articleTitle){
     string t = "\"title\"";
     int loc = text.find(p,0);
     while(loc!=string::npos){
-        int pos = loc + 10;
+        int pos = loc + 9;
         int id = stoi(text.substr(pos, text.find(",", pos) - pos));
         loc=text.find(t, pos);
         pos = loc + 9;
@@ -56,6 +56,7 @@ int main(){
     wikis[10]="https://species.wikimedia.org/";
     wikis[11]="https://en.wikivoyage.org/";
     WikiAPI::setWiki(displayWikiMenu(wikis));
+
     Graph g;
     string cont="Y";
     while(cont[0]=='Y') {
