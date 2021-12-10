@@ -37,9 +37,9 @@ pair<int,string> chooseArticle(string articleTitle){
     for(unsigned int i=1; i<=v.size(); i++){
         cout << i <<  (i>=10 ? ". ":".  ") << v[i-1].second << endl;
     }
-    int articleIndex;
-    cin >> articleIndex;
-    return v[articleIndex-1];
+    string articleIndexstr;
+    getline(cin, articleIndexstr);
+    return v[stoi(articleIndexstr)-1];
 }
 
 int main(){
@@ -57,8 +57,8 @@ int main(){
     wikis[11]="https://en.wikivoyage.org/";
     WikiAPI::setWiki(displayWikiMenu(wikis));
     Graph g;
-    char cont='Y';
-    while(cont=='Y') {
+    string cont="Y";
+    while(cont[0]=='Y') {
         cout << "Search for your starting article:" << endl;
         string article;
         getline(cin, article);
@@ -88,7 +88,7 @@ int main(){
             cout << title << " (" << WikiAPI::getPageURL(title) << ")" << endl;
         }
         cout << endl << "Would you like to make another shortest path search? (Y/N)" << endl;
-        cin >> cont;
+        getline(cin, cont);
     }
     return 0;
 }
