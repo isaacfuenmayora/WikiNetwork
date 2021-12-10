@@ -61,12 +61,23 @@ int main(){
     while(cont=='Y') {
         cout << "Search for your starting article:" << endl;
         string article;
-        cin >> article;
-        pair<int, string> sArt = chooseArticle(article);
+        getline(cin, article);
+        pair<int, string> srcPage = chooseArticle(article);
         cout << "Search for your ending article:" << endl;
-        cin >> article;
-        pair<int, string> eArt = chooseArticle(article);
-        vector<int> path = g.breadthFirstSearchOut(sArt.first,sArt.second,eArt.first);
+        getline(cin, article);
+        pair<int, string> endPage = chooseArticle(article);
+        cout << "Would you like to conduct a breadth first (0) or deepening depth first (1) search for the shortest path?" << endl;
+        int search;
+        cin >> search;
+        vector<int> path;
+        if(search==0)
+            path = g.breadthFirstSearchOut(srcPage.first,srcPage.second,endPage.first);
+        else {
+            cout << "Enter value for max depth:" << endl;
+            int depth;
+            cin >> depth;
+            path = g.iterativeDeepeningDepthSearchOut(srcPage.first,srcPage.second,endPage.first, depth);
+        }
         cout << "This is the shortest path:" << endl;
         for(int id:path){
             string title=g.getTitle(id);
