@@ -15,6 +15,16 @@ string formatTitle(string& title){
     for(int i=0; i<title.size(); i++){
         if(title[i]==' ')
             linkTitle+="%20";
+        else if(title[i]=='!')
+            linkTitle+="%21";
+        else if(title[i]=='\'')
+            linkTitle+="%27";
+        else if(title[i]=='(')
+            linkTitle+="%28";
+        else if(title[i]==')')
+            linkTitle+="%29";
+        else if(title[i]==',')
+            linkTitle+="%2C";
         else
             linkTitle.push_back(title[i]);
     }

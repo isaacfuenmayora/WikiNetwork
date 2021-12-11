@@ -114,7 +114,7 @@ int main(){
         cout << endl << "Would you like to make another shortest path search? (Y/N)" << endl;
         getline(cin, cont);
         if(cont[0]=='Y' || cont[0]=='y') {
-            cout << endl << "Would you like to change what wiki you are using? (Y/N)" << endl;
+            cout << "Would you like to change what wiki you are using? (Y/N)" << endl;
             string changeWiki = takeStringInput();
             if(changeWiki[0]=='Y' || changeWiki[0]=='y')
                 g = displayWikiMenu(wikis, graphs);
