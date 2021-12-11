@@ -1,7 +1,7 @@
 #include "WikiAPI.hpp"
 #include "Graph.hpp"
 #include <iostream>
-#define NUMWIKIS 12
+#define NUMWIKIS 11
 using std::cout;
 using std::cin;
 using std::endl;
@@ -35,13 +35,14 @@ int takeIntInput(int a, int b) {
 }
 
 
-string displayWikiMenu(const vector<string>& wikis){
+Graph& displayWikiMenu(vector<string> wikis, vector<Graph>& graphs){
     cout << "Please enter the corresponding number for which wiki you would like to choose." << endl;
-    for(int i=1; i<wikis.size(); i++){
-        cout << '\t' << i <<  (i>=10 ? ". ":".  ") << wikis[i] << endl;
+    for(int i=0; i<wikis.size(); i++){
+        cout << '\t' << i+1 <<  (i+1>=10 ? ". ":".  ") << wikis[i] << endl;
     }
-    int wikiIndex= takeIntInput(1, wikis.size()-1);
-    return wikis[wikiIndex];
+    int wikiIndex= takeIntInput(1, wikis.size());
+    WikiAPI::setWiki(wikis[wikiIndex-1]);
+    return graphs[wikiIndex-1];
 }
 
 pair<int,string> chooseArticle(string articleTitle){
@@ -69,21 +70,21 @@ pair<int,string> chooseArticle(string articleTitle){
 
 int main(){
     vector<string> wikis(NUMWIKIS);
-    wikis[1]="https://en.wikipedia.org/";
-    wikis[2]="https://simple.wikipedia.org/";
-    wikis[3]="https://en.wiktionary.org/";
-    wikis[4]="https://simple.wiktionary.org/";
-    wikis[5]="https://en.wikiquote.org/";
-    wikis[6]="https://en.wikinews.org/";
-    wikis[7]="https://en.wikisource.org/";
-    wikis[8]="https://en.wikibooks.org/";
-    wikis[9]="https://en.wikiversity.org/";
-    wikis[10]="https://species.wikimedia.org/";
-    wikis[11]="https://en.wikivoyage.org/";
-    WikiAPI::setWiki(displayWikiMenu(wikis));
-    Graph g;
+    wikis[0]="https://en.wikipedia.org/";
+    wikis[1]="https://simple.wikipedia.org/";
+    wikis[2]="https://en.wiktionary.org/";
+    wikis[3]="https://simple.wiktionary.org/";
+    wikis[4]="https://en.wikiquote.org/";
+    wikis[5]="https://en.wikinews.org/";
+    wikis[6]="https://en.wikisource.org/";
+    wikis[7]="https://en.wikibooks.org/";
+    wikis[8]="https://en.wikiversity.org/";
+    wikis[9]="https://species.wikimedia.org/";
+    wikis[10]="https://en.wikivoyage.org/";
+    vector<Graph> graphs(NUMWIKIS);
+    Graph& g = displayWikiMenu(wikis, graphs);
     string cont="Y";
-    while(cont[0]=='Y') {
+    while(cont[0]=='Y' || cont[0]=='y') {
         cout << "Search for your starting article:" << endl;
         string article = takeStringInput();
         pair<int, string> srcPage = chooseArticle(article);
@@ -112,6 +113,12 @@ int main(){
         }
         cout << endl << "Would you like to make another shortest path search? (Y/N)" << endl;
         getline(cin, cont);
+        if(cont[0]=='Y' || cont[0]=='y') {
+            cout << endl << "Would you like to change what wiki you are using? (Y/N)" << endl;
+            string changeWiki = takeStringInput();
+            if(changeWiki[0]=='Y' || changeWiki[0]=='y')
+                g = displayWikiMenu(wikis, graphs);
+        }
     }
     return 0;
 }
