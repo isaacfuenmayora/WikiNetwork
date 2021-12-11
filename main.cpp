@@ -91,7 +91,7 @@ int main(){
         cout << "Search for your ending article:" << endl;
         article=takeStringInput();
         pair<int, string> endPage = chooseArticle(article);
-        cout << "Would you like to conduct a breadth first (0) or iterative deepening depth first (1) search for the shortest path?" << endl;
+        cout << "Would you like to conduct a breadth first (0) or iterative deepening depth first (1) search for the path?" << endl;
         int search = takeIntInput(0,1);
         vector<int> path;
         if(search==0) {
@@ -106,12 +106,12 @@ int main(){
             int displayPages = takeIntInput(0,1);
             path = g.iterativeDeepeningDepthSearchOut(srcPage.first,srcPage.second,endPage.first, depth, displayPages);
         }
-        cout << "This is the shortest path:" << endl;
+        cout << "This is the" << (search ? "":" shortest") << " path:" << endl;
         for(int id:path){
             string title=g.getTitle(id);
             cout << title << " (" << WikiAPI::getPageURL(title) << ")" << endl;
         }
-        cout << endl << "Would you like to make another shortest path search? (Y/N)" << endl;
+        cout << endl << "Would you like to make another path search? (Y/N)" << endl;
         getline(cin, cont);
         if(cont[0]=='Y' || cont[0]=='y') {
             cout << "Would you like to change what wiki you are using? (Y/N)" << endl;

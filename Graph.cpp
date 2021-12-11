@@ -46,7 +46,7 @@ void Graph::connectOutNode(int id) {
     currNode->outgoingNodes.push_back(adjList[id]);
 }
 
-void Graph::connectToOutgoingLinks(bool displayPages) { //TODO: implement showing pages
+void Graph::connectToOutgoingLinks(bool displayPages) {
     currNode->hasAllOutgoing=true;
     if(displayPages && currNode->prev) cout<< currNode->prev->title+" -> "+currNode->title <<endl;
     string text=WikiAPI::getOutgoingLinks(currNode->id);
@@ -107,24 +107,27 @@ vector<int> Graph::breadthFirstSearchOut(int srcID, string srcTitle, int targetI
         emplaceSourceNode(srcID,move(srcTitle));
     queue<Node*> nodes({currNode});
     unordered_set<Node*> visited({currNode});
-    while(!nodes.empty()){
+    Node* dest = nullptr;
+    while(!nodes.empty() && !dest){
         currNode = nodes.front(); nodes.pop();
         //if this node hasn't gotten its outgoing links, get them first
         if(!currNode->hasAllOutgoing)
             connectToOutgoingLinks(displayPages);
         //iterate through the current Node's outgoing links
         for(Node* out: currNode->outgoingNodes){
-            //if found, get path and return it
-            if(out->id==targetID)
-                return move(getPrevPathTo(out, adjList[srcID]));
-            //if we haven't encountered it,make its prev the currNode and add it to visited
+            //if we haven't encountered it, make its prev the currNode and add it to visited
             if(visited.insert(out).second){
                 nodes.push(out);
                 out->prev=currNode;
             }
+            //if found, get path and return it. We also want to reset currNode
+            if(out->id==targetID) {
+                dest=out;
+                break;
+            }
         }
     }
-    return {};
+    return dest ? move(getPrevPathTo(dest, adjList[srcID])):vector<int>();
 }
 
 vector<int> Graph::iterativeDeepeningDepthSearchOut(int srcID, string srcTitle, int targetID, int maxDepth, bool displayPages) {
@@ -135,7 +138,8 @@ vector<int> Graph::iterativeDeepeningDepthSearchOut(int srcID, string srcTitle, 
     stack<pair<Node*,int>> nodeDepths;
     nodeDepths.push({currNode, 0});
     unordered_set<Node*> visited({currNode});
-    while(!nodeDepths.empty()){
+    Node* dest = nullptr;
+    while(!nodeDepths.empty() && !dest){
         currNode = nodeDepths.top().first;
         int depth = nodeDepths.top().second;
         nodeDepths.pop();
@@ -143,22 +147,24 @@ vector<int> Graph::iterativeDeepeningDepthSearchOut(int srcID, string srcTitle, 
         if(!currNode->hasAllOutgoing)
             connectToOutgoingLinks(displayPages);
         //iterate through the current Node's outgoing links
-        if(depth<maxDepth) for(Node* out: currNode->outgoingNodes){
-            //if found, get path and return it
-            if(out->id==targetID)
-                return move(getPrevPathTo(out, adjList[srcID]));
+        if(depth<maxDepth) for(Node* out: currNode->outgoingNodes) {
             //if we haven't encountered it,make its prev the currNode and add it to visited
             if(visited.insert(out).second){
                 nodeDepths.push({out,depth+1});
                 out->prev=currNode;
             }
+            //if found, get path and return it. We also want to reset currNode
+            if (out->id == targetID){
+                dest=out;
+                break;
+            }
         }
     }
-    return {};
+    return dest ? move(getPrevPathTo(dest, adjList[srcID])):vector<int>();
 }
 
 Graph::Node::Node(int id, string title, Node* prev)
     : id(id),
-      title(title),
+      title(move(title)),
       prev(prev)
 {}
