@@ -21,7 +21,7 @@ int takeIntInput(int a, int b) {
         try {
             getline(cin, input);
             num = stoi(input);
-            while (num <= a && num >= b) {
+            while (num <= a || num >= b) {
                 cout << "Input must be an integer in the range [" << a << ", " << b << "]" << endl;
                 getline(cin, input);
                 num = stoi(input);
@@ -95,15 +95,15 @@ int main(){
         vector<int> path;
         if(search==0) {
             cout << "Would you like for pages to display while searching? (0/1)" << endl;
-            int dispPages = takeIntInput(0,1);
-            path = g.breadthFirstSearchOut(srcPage.first, srcPage.second, endPage.first, dispPages);
+            int displayPages = takeIntInput(0,1);
+            path = g.breadthFirstSearchOut(srcPage.first, srcPage.second, endPage.first, displayPages);
         }
         else {
             cout << "\tEnter value for max depth:" << endl;
             int depth = takeIntInput(1,20);
             cout << "Would you like for pages to display while searching? (0/1)" << endl;
-            int dispPages = takeIntInput(0,1);
-            path = g.iterativeDeepeningDepthSearchOut(srcPage.first,srcPage.second,endPage.first, depth, dispPages);
+            int displayPages = takeIntInput(0,1);
+            path = g.iterativeDeepeningDepthSearchOut(srcPage.first,srcPage.second,endPage.first, depth, displayPages);
         }
         cout << "This is the shortest path:" << endl;
         for(int id:path){
