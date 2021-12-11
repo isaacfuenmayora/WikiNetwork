@@ -93,12 +93,17 @@ int main(){
         cout << "Would you like to conduct a breadth first (0) or iterative deepening depth first (1) search for the shortest path?" << endl;
         int search = takeIntInput(0,1);
         vector<int> path;
-        if(search==0)
-            path = g.breadthFirstSearchOut(srcPage.first,srcPage.second,endPage.first);
+        if(search==0) {
+            cout << "Would you like for pages to display while searching? (0/1)" << endl;
+            int dispPages = takeIntInput(0,1);
+            path = g.breadthFirstSearchOut(srcPage.first, srcPage.second, endPage.first, dispPages);
+        }
         else {
-            cout << "Enter value for max depth:" << endl;
+            cout << "\tEnter value for max depth:" << endl;
             int depth = takeIntInput(1,20);
-            path = g.iterativeDeepeningDepthSearchOut(srcPage.first,srcPage.second,endPage.first, depth);
+            cout << "Would you like for pages to display while searching? (0/1)" << endl;
+            int dispPages = takeIntInput(0,1);
+            path = g.iterativeDeepeningDepthSearchOut(srcPage.first,srcPage.second,endPage.first, depth, dispPages);
         }
         cout << "This is the shortest path:" << endl;
         for(int id:path){
