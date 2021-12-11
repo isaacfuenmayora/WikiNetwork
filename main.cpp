@@ -21,7 +21,7 @@ int takeIntInput(int a, int b) {
         try {
             getline(cin, input);
             num = stoi(input);
-            while (num <= a || num >= b) {
+            while (num < a || num > b) {
                 cout << "Input must be an integer in the range [" << a << ", " << b << "]" << endl;
                 getline(cin, input);
                 num = stoi(input);
