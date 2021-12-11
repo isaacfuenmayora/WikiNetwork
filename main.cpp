@@ -8,14 +8,40 @@ using std::endl;
 using std::stoi;
 using std::pair;
 
+string takeStringInput(){
+    string x;
+    getline(cin, x);
+    return x;
+}
+
+int takeIntInput(int a, int b) {
+    string input;
+    int num;
+    while(true) {
+        try {
+            getline(cin, input);
+            num = stoi(input);
+            while (num <= a && num >= b) {
+                cout << "Input must be an integer in the range [" << a << ", " << b << "]" << endl;
+                getline(cin, input);
+                num = stoi(input);
+            }
+            return num;
+        }
+        catch (...) {
+            cout << "Input must be an integer in the range [" << a << ", " << b << "]" << endl;
+        }
+    }
+}
+
+
 string displayWikiMenu(const vector<string>& wikis){
     cout << "Please enter the corresponding number for which wiki you would like to choose." << endl;
     for(int i=1; i<wikis.size(); i++){
-        cout << i <<  (i>=10 ? ". ":".  ") << wikis[i] << endl;
+        cout << '\t' << i <<  (i>=10 ? ". ":".  ") << wikis[i] << endl;
     }
-    string wikiIndex;
-    getline(cin,wikiIndex);
-    return wikis[stoi(wikiIndex)];
+    int wikiIndex= takeIntInput(1, wikis.size()-1);
+    return wikis[wikiIndex];
 }
 
 pair<int,string> chooseArticle(string articleTitle){
@@ -35,11 +61,10 @@ pair<int,string> chooseArticle(string articleTitle){
     }
     cout << "Please enter the corresponding number for which article you would like to choose." << endl;
     for(unsigned int i=1; i<=v.size(); i++){
-        cout << i <<  (i>=10 ? ". ":".  ") << v[i-1].second << endl;
+        cout << '\t' << i <<  (i>=10 ? ". ":".  ") << v[i-1].second << endl;
     }
-    string articleIndexstr;
-    getline(cin, articleIndexstr);
-    return v[stoi(articleIndexstr)-1];
+    int articleIndex=takeIntInput(1, v.size());
+    return v[articleIndex-1];
 }
 
 int main(){
@@ -60,26 +85,19 @@ int main(){
     string cont="Y";
     while(cont[0]=='Y') {
         cout << "Search for your starting article:" << endl;
-        string article;
-        getline(cin, article);
+        string article = takeStringInput();
         pair<int, string> srcPage = chooseArticle(article);
         cout << "Search for your ending article:" << endl;
-        getline(cin, article);
+        article=takeStringInput();
         pair<int, string> endPage = chooseArticle(article);
         cout << "Would you like to conduct a breadth first (0) or iterative deepening depth first (1) search for the shortest path?" << endl;
-        string searchstr;
-        int search;
-        getline(cin, searchstr);
-        search=stoi(searchstr);
+        int search = takeIntInput(0,1);
         vector<int> path;
         if(search==0)
             path = g.breadthFirstSearchOut(srcPage.first,srcPage.second,endPage.first);
         else {
             cout << "Enter value for max depth:" << endl;
-            string depthstr;
-            int depth;
-            getline(cin, depthstr);
-            depth=stoi(depthstr);
+            int depth = takeIntInput(1,20);
             path = g.iterativeDeepeningDepthSearchOut(srcPage.first,srcPage.second,endPage.first, depth);
         }
         cout << "This is the shortest path:" << endl;
